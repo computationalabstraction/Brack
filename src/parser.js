@@ -63,7 +63,7 @@ function parseI(str,brackets=["(",")"]) {
             dot = true;
             curr = str[0];
         }
-        while(isNumber(curr) || (curr === "." && !dot)) {
+        while(isNumber(curr) || curr === ".") {
             if(curr === "." && dot) throw new Error("two dots not allowed");
             str.shift();
             buff += curr;
@@ -82,6 +82,7 @@ function parse(str,brackets=["(",")"]) {
         const out = parseI(str,brackets);
         if(out) final.push(out);
     }
+    // final.length === 1? final[0]: final
     return final;
 }
 

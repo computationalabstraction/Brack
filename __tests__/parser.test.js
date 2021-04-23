@@ -34,6 +34,7 @@ test('parsing sexpressions', () => {
     }).toThrow();
     expect(parse('(    f1    whitespace   test  )')).toEqual([["f1","whitespace","test"]]);
     expect(parse('(CAPS LETTERS TEST)')).toEqual([["CAPS","LETTERS","TEST"]]);
+    expect(parse('((CAPS () ()) () (LETTERS TEST () ()) ((())))')).toEqual([[["CAPS",[],[]],[],["LETTERS","TEST",[],[]],[[[]]]]]);
     expect(parse(`
         {10 20 30 40}
         {CAPS LETTERS TEST} 

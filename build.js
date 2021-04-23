@@ -9,8 +9,6 @@ const transform = util.promisify(babel.transformFile);
 
 // Dist Gen
 function distGen(filename) {
-    console.log(fs.readdirSync(`${__dirname}/dist`));
-    console.log(fs.readdirSync(`${__dirname}/dist/browser`));
     transform(`${__dirname}/src/${filename}.js`,{"presets":["minify"],"comments":false})
     .then(result => {
         fs.writeFileSync(`${__dirname}/dist/${filename}.min.js`,result.code);
@@ -18,8 +16,6 @@ function distGen(filename) {
         .pipe(gzip)
         .pipe(fs.createWriteStream(`${__dirname}/dist/${filename}.min.js.gz`));
     });
-    console.log(__dirname);
-    console.log(filename);
     browserify([`${__dirname}/src/${filename}.js`], { standalone: 'brack' })
     .bundle()
     .pipe(fs.createWriteStream(`${__dirname}/dist/browser/${filename}.dist.js`))
@@ -35,4 +31,6 @@ function distGen(filename) {
 }
 
 if (!fs.existsSync(argv[2])) fs.mkdirSync(argv[2]);
+if (!fs.existsSync(`${__dirname}/dist`)) fs.mkdirSync(`${__dirname}/dist`);
+if(!fs.existsSync(`${__dirname}/dist/browser`)) fs.mkdirSync(`${__dirname}/dist/browser`);
 argv.slice(3).forEach(distGen);

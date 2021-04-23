@@ -45,7 +45,7 @@ function parseI(str,brackets=["(",")"]) {
         str.shift();
         const out = [];
         let curr = str[0];
-        while(curr !== brackets[1]) {
+        while(curr && curr !== brackets[1]) {
             let temp = parseI(str,brackets);
             if(temp) out.push(temp);
             curr = str[0];
@@ -118,12 +118,3 @@ module.exports = {
     parse,
     Literals
 };
-
-// const temp = parse(`
-// (f2 (f1 10 20 30 5.3333) true)
-// (print "archan patkar")
-// (+ - * -)
-// ('archan '(10 20 30)) 
-// `);
-
-// console.log(temp.map(e => e.toString()).join("\n")); 

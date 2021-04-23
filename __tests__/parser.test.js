@@ -1,4 +1,4 @@
-const {parse, Literals} = require("../src/parser");
+const {parse, Literals} = require("../src/brack");
 
 test('parsing literals', () => {
     expect(parse("10")).toEqual([Literals.Number(10)]);

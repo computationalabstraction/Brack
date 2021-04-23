@@ -9,6 +9,8 @@ const transform = util.promisify(babel.transformFile);
 
 // Dist Gen
 function distGen(filename) {
+    console.log(fs.readdirSync(`${__dirname}/dist`));
+    console.log(fs.readdirSync(`${__dirname}/dist/browser`));
     transform(`${__dirname}/src/${filename}.js`,{"presets":["minify"],"comments":false})
     .then(result => {
         fs.writeFileSync(`${__dirname}/dist/${filename}.min.js`,result.code);

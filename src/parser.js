@@ -1,4 +1,4 @@
-const { sum, tagged } = require("styp");
+const { sum } = require("styp");
 
 const Literals = sum("Literals", {
     Number: ["v"],
@@ -62,7 +62,7 @@ function parseI(str,brackets=["(",")"]) {
         str.shift();
         curr = str[0];
         let buff = ""
-        while(curr !== '"') {
+        while(curr && curr !== '"') {
             buff += curr;
             str.shift();
             curr = str[0];
@@ -95,6 +95,7 @@ function parseI(str,brackets=["(",")"]) {
             if(curr === "." && dot) throw new Error("two dots not allowed");
             str.shift();
             buff += curr;
+            if(curr === ".") dot = true;
             curr = str[0];
         }
         if(dot) return Literals.Number(parseFloat(buff));
@@ -113,9 +114,16 @@ function parse(str,brackets=["(",")"]) {
     return final;
 }
 
-console.log(parse(`
-(f2 (f1 10 20 30 5.3) true)
-(print "archan patkar")
-(+ - * -)
-('archan '(10 20 30)) 
-`)); 
+module.exports = {
+    parse,
+    Literals
+};
+
+// const temp = parse(`
+// (f2 (f1 10 20 30 5.3333) true)
+// (print "archan patkar")
+// (+ - * -)
+// ('archan '(10 20 30)) 
+// `);
+
+// console.log(temp.map(e => e.toString()).join("\n")); 

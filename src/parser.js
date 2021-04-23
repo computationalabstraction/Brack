@@ -1,3 +1,12 @@
+const { sum, tagged } = require("styp");
+
+const Literals = sum("Literals", {
+    Number: ["v"],
+    String: ["v"],
+    Bool: ["v"],
+    Quote: ["v"]
+});
+
 const white = [" ", "\n", "\b", "\t", "\r"];
 function isWhite(c) {
     return white.includes(c);
@@ -31,17 +40,36 @@ function parseI(str,brackets=["(",")"]) {
             curr = str[0];
         }
     }
+    if(curr === brackets[1]) return;
     if(curr === brackets[0]) {
         str.shift();
         const out = [];
         let curr = str[0];
         while(curr !== brackets[1]) {
-            out.push(parseI(str,brackets))
+            let temp = parseI(str,brackets);
+            if(temp) out.push(temp);
+            curr = str[0];
+        }
+        curr = str.shift();
+        if(curr !== brackets[1]) throw new Error(`Expected ${brackets[1]}`);
+        return out;
+    }
+    if(curr === "'") {
+        str.shift();
+        return Literals.Quote(parseI(str,brackets));
+    }
+    if(curr === '"') {
+        str.shift();
+        curr = str[0];
+        let buff = ""
+        while(curr !== '"') {
+            buff += curr;
+            str.shift();
             curr = str[0];
         }
         str.shift();
-        if(curr !== brackets[1]) throw new Error(`Expected ${brackets[1]}`);
-        return out;
+        if(curr !== '"') throw new Error('Required `"`');
+        return Literals.String(buff);
     }
     if(isAlphabet(curr) || curr === "_") {
         buff = str.shift();
@@ -51,7 +79,7 @@ function parseI(str,brackets=["(",")"]) {
             buff += curr;
             curr = str[0];
         }
-        if(isBool(buff)) return buff == "true"?true:false;
+        if(isBool(buff)) return Literals.Bool(buff == "true"?true:false);
         return buff;
     }
     if(isNumber(curr)) {
@@ -69,10 +97,10 @@ function parseI(str,brackets=["(",")"]) {
             buff += curr;
             curr = str[0];
         }
-        if(dot) return parseFloat(buff);
-        return parseInt(buff);
+        if(dot) return Literals.Number(parseFloat(buff));
+        return Literals.Number(parseInt(buff));
     }
-    return curr;
+    return str.shift();
 }
 
 function parse(str,brackets=["(",")"]) {
@@ -82,8 +110,12 @@ function parse(str,brackets=["(",")"]) {
         const out = parseI(str,brackets);
         if(out) final.push(out);
     }
-    // final.length === 1? final[0]: final
     return final;
 }
 
-console.log(parse("(f1 10 20 30)"))
+console.log(parse(`
+(f2 (f1 10 20 30 5.3) true)
+(print "archan patkar")
+(+ - * -)
+('archan '(10 20 30)) 
+`)); 

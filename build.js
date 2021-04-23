@@ -16,6 +16,8 @@ function distGen(filename) {
         .pipe(gzip)
         .pipe(fs.createWriteStream(`${__dirname}/dist/${filename}.min.js.gz`));
     });
+    console.log(__dirname);
+    console.log(filename);
     browserify([`${__dirname}/src/${filename}.js`], { standalone: 'brack' })
     .bundle()
     .pipe(fs.createWriteStream(`${__dirname}/dist/browser/${filename}.dist.js`))

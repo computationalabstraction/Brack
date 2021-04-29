@@ -23,7 +23,7 @@ console.log(s2); // -> ["print", ["temp", "archan"]]
 ```
 
 #### Literals
-This library wraps literal values in container called `Literals`. Every other symbol is returned in the parsed structure as string.
+This library parses and wraps literal values in container called `Literals`. Every other symbol is returned in the parsed structure as string.
 
 There are 4 types of Literals:
 * `Number`
@@ -35,6 +35,15 @@ There are 4 types of Literals:
 const { parse, Literals } = require("brack");
 
 const s1 = parse(`(f1 'symbol 10 true "this is a string" )`);
+
+console.log(s1.map(e => e.toString())); 
+
+const s2 = parse(
+`<<lambda 
+        <r> 
+        <* pi <square r>>> 
+        2.4562>`
+, ["<",">"]);
 
 console.log(s1.map(e => e.toString())); 
 // -> ["f1", Literal.Quote("symbol"), Literal.Number(10), Literal.Bool(true), Literal.String("this is a string")]

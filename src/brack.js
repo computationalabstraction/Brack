@@ -30,7 +30,7 @@ function isBool(s) {
     return s == "true" || s == "false";
 }
 
-function parseI(str,brackets=["(",")"]) {
+function parseI(str,delim=["(",")"]) {
     let curr = str[0];
     if(isWhite(curr)) {
         str.shift();
@@ -40,23 +40,23 @@ function parseI(str,brackets=["(",")"]) {
             curr = str[0];
         }
     }
-    if(curr === brackets[1]) return;
-    if(curr === brackets[0]) {
+    if(curr === delim[1]) return;
+    if(curr === delim[0]) {
         str.shift();
         const out = [];
         let curr = str[0];
-        while(curr && curr !== brackets[1]) {
-            let temp = parseI(str,brackets);
+        while(curr && curr !== delim[1]) {
+            let temp = parseI(str,delim);
             if(temp) out.push(temp);
             curr = str[0];
         }
         curr = str.shift();
-        if(curr !== brackets[1]) throw new Error(`Expected ${brackets[1]}`);
+        if(curr !== delim[1]) throw new Error(`Expected ${delim[1]}`);
         return out;
     }
     if(curr === "'") {
         str.shift();
-        return Literals.Quote(parseI(str,brackets));
+        return Literals.Quote(parseI(str,delim));
     }
     if(curr === '"') {
         str.shift();
@@ -104,11 +104,11 @@ function parseI(str,brackets=["(",")"]) {
     return str.shift();
 }
 
-function parse(str,brackets=["(",")"]) {
+function parse(str,delim=["(",")"]) {
     if(typeof str === "string") str = str.split("");
     const final = [];
     while(str.length > 0) {
-        const out = parseI(str,brackets);
+        const out = parseI(str,delim);
         if(out) final.push(out);
     }
     return final;

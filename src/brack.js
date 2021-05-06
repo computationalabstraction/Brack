@@ -72,7 +72,7 @@ function parseI(str,delim=["(",")"]) {
         return Literals.String(buff);
     }
     if(isAlphabet(curr) || curr === "_") {
-        buff = str.shift();
+        let buff = str.shift();
         curr = str[0]; 
         while(isAlphabet(curr) || isNumber(curr) || curr === "_") {
             str.shift();

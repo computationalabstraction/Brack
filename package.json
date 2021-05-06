@@ -1,7 +1,7 @@
 {
   "name": "brack",
   "version": "0.0.1",
-  "description": "Dead simple S-Expression parser (pre-release)",
+  "description": "A Friendly S-Expression parser (pre-release/alpha)",
   "main": "dist/brack.min.js",
   "scripts": {
     "test": "npx jest --coverage",

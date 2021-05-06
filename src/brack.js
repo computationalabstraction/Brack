@@ -44,7 +44,7 @@ function parseI(str,delim=["(",")"]) {
     if(curr === delim[0]) {
         str.shift();
         const out = [];
-        let curr = str[0];
+        curr = str[0];
         while(curr && curr !== delim[1]) {
             let temp = parseI(str,delim);
             if(temp) out.push(temp);
@@ -84,7 +84,7 @@ function parseI(str,delim=["(",")"]) {
     }
     if(isNumber(curr)) {
         let dot = false;
-        buff = str.shift();
+        let buff = str.shift();
         curr = str[0];
         if(curr === ".") {
             buff += (str.shift());

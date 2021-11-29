@@ -1,8 +1,9 @@
 {
   "name": "brack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Friendly S-Expression parser (pre-release)",
   "main": "dist/brack.min.js",
+  "unpkg": "dist/browser/vachan.dist.min.js",
   "scripts": {
     "test": "npx jest --coverage",
     "build": "node build.js dist brack"

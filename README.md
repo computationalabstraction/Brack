@@ -1,5 +1,5 @@
 # brack
-Dead simple S-Expressions parser
+A Friendly S-Expressions parser (pre-release)
 
 ## Installation
 
